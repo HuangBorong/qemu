@@ -1044,6 +1044,7 @@ DeviceState *riscv_aplic_create(hwaddr addr, hwaddr size,
     uint32_t iprio_bits, bool msimode, bool mmode, DeviceState *parent)
 {
     DeviceState *dev = qdev_new(TYPE_RISCV_APLIC);
+    RISCVAPLICState* aplic = RISCV_APLIC(dev);
     uint32_t i;
 
     assert(num_harts < APLIC_MAX_IDC);
@@ -1059,6 +1060,13 @@ DeviceState *riscv_aplic_create(hwaddr addr, hwaddr size,
     qdev_prop_set_uint32(dev, "num-irqs", num_sources + 1);
     qdev_prop_set_bit(dev, "msimode", msimode);
     qdev_prop_set_bit(dev, "mmode", mmode);
+
+    info_report("%s-mode APLIC domain at 0x%lx, size: 0x%x", 
+        (aplic->mmode) ? "M" : "S", addr, aplic->aperture_size);
+    info_report("delivery-mode: %s", (aplic->msimode) ? "MSI" : "Direct");
+    info_report("num-harts: %u", aplic->num_harts);
+    info_report("iprio-mask: %u", aplic->iprio_mask);
+    info_report("num-irqs: %u", aplic->num_irqs);
 
     if (parent) {
         riscv_aplic_add_child(parent, dev);
@@ -1077,8 +1085,12 @@ DeviceState *riscv_aplic_create(hwaddr addr, hwaddr size,
             qdev_connect_gpio_out_named(dev, NULL, i,
                                         qdev_get_gpio_in(DEVICE(cpu),
                                             (mmode) ? IRQ_M_EXT : IRQ_S_EXT));
+            info_report("CPU id: %u, to %s-mode external interrupt", 
+                aplic->hartid_base + i, (aplic->mmode) ? "M" : "S");                              
         }
     }
+
+    info_report("APLIC created\n");
 
     return dev;
 }

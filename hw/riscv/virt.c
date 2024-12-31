@@ -672,7 +672,7 @@ static void create_fdt_one_aplic(RISCVVirtState *s, int socket,
                                aplic_child_phandle, 0x1,
                                VIRT_IRQCHIP_NUM_SOURCES);
     }
-
+    
     riscv_socket_fdt_write_id(ms, aplic_name, socket);
     qemu_fdt_setprop_cell(ms->fdt, aplic_name, "phandle", aplic_phandle);
 }
@@ -756,6 +756,7 @@ static void create_fdt_sockets(RISCVVirtState *s, const MemMapEntry *memmap,
     qemu_fdt_setprop_cell(ms->fdt, "/cpus", "#address-cells", 0x1);
     qemu_fdt_add_subnode(ms->fdt, "/cpus/cpu-map");
 
+    info_report("num cpus: %d", ms->smp.cpus);
     intc_phandles = g_new0(uint32_t, ms->smp.cpus);
 
     phandle_pos = ms->smp.cpus;
@@ -1535,6 +1536,8 @@ static void virt_machine_init(MachineState *machine)
         error_report("number of sockets/nodes should be less than %d",
             VIRT_SOCKETS_MAX);
         exit(1);
+    } else {
+        info_report("number of sockets/nodes: %d\n", socket_count);
     }
 
     if (!virt_aclint_allowed() && s->have_aclint) {
@@ -1618,6 +1621,7 @@ static void virt_machine_init(MachineState *machine)
             s->irqchip[i] = virt_create_plic(memmap, i,
                                              base_hartid, hart_count);
         } else {
+            info_report("socket id: %d\n", i);
             s->irqchip[i] = virt_create_aia(s->aia_type, s->aia_guests,
                                             memmap, i, base_hartid,
                                             hart_count);
@@ -1713,11 +1717,13 @@ static void virt_machine_init(MachineState *machine)
     /* load/create device tree */
     if (machine->dtb) {
         machine->fdt = load_device_tree(machine->dtb, &s->fdt_size);
+        info_report("Using device tree: %s, size: %d\n", machine->dtb, s->fdt_size);
         if (!machine->fdt) {
             error_report("load_device_tree() failed");
             exit(1);
         }
     } else {
+        info_report("Creating device tree\n");
         create_fdt(s, memmap);
     }
 
