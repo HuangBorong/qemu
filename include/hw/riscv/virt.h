@@ -24,6 +24,7 @@
 #include "hw/sysbus.h"
 #include "hw/block/flash.h"
 #include "hw/intc/riscv_imsic.h"
+#include "hw/timer/secure_timer.h"
 
 #define VIRT_CPUS_MAX_BITS             9
 #define VIRT_CPUS_MAX                  (1 << VIRT_CPUS_MAX_BITS)
@@ -52,6 +53,7 @@ struct RISCVVirtState {
     DeviceState *irqchip[VIRT_SOCKETS_MAX];
     PFlashCFI01 *flash[2];
     FWCfgState *fw_cfg;
+    SecureTimerState secure_timer;
 
     int fdt_size;
     bool have_aclint;
@@ -87,6 +89,7 @@ enum {
     VIRT_PLATFORM_BUS,
     VIRT_PCIE_ECAM,
     VIRT_IOMMU_SYS,
+    VIRT_SECURE_TIMER,
 };
 
 enum {
@@ -94,6 +97,7 @@ enum {
     RTC_IRQ = 11,
     VIRTIO_IRQ = 1, /* 1 to 8 */
     VIRTIO_COUNT = 8,
+    SECURE_TIMER_IRQ = 20,
     PCIE_IRQ = 0x20, /* 32 to 35 */
     IOMMU_SYS_IRQ = 0x24, /* 36-39 */
     VIRT_PLATFORM_BUS_IRQ = 64, /* 64 to 95 */

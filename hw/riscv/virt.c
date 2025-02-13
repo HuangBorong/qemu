@@ -99,6 +99,7 @@ static const MemMapEntry virt_memmap[] = {
     [VIRT_IMSIC_S] =      { 0x28000000, VIRT_IMSIC_MAX_SIZE },
     [VIRT_PCIE_ECAM] =    { 0x30000000,    0x10000000 },
     [VIRT_PCIE_MMIO] =    { 0x40000000,    0x40000000 },
+    [VIRT_SECURE_TIMER] = { 0x41000000,         0x200 },
     [VIRT_DRAM] =         { 0x80000000,           0x0 },
 };
 
@@ -1703,6 +1704,9 @@ static void virt_machine_init(MachineState *machine)
     serial_mm_init(system_memory, memmap[VIRT_UART0].base,
         0, qdev_get_gpio_in(mmio_irqchip, UART0_IRQ), 399193,
         serial_hd(0), DEVICE_LITTLE_ENDIAN);
+
+    secure_timer_create(system_memory, memmap[VIRT_SECURE_TIMER].base,
+        qdev_get_gpio_in(mmio_irqchip, SECURE_TIMER_IRQ), 10000);
 
     sysbus_create_simple("goldfish_rtc", memmap[VIRT_RTC].base,
         qdev_get_gpio_in(mmio_irqchip, RTC_IRQ));
