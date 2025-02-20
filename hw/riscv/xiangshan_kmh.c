@@ -59,7 +59,6 @@ static DeviceState *xiangshan_kmh_create_aia(const MemMapEntry *memmap,
 {
 	int i;
 	hwaddr addr = 0;
-	DeviceState *aplic_s = NULL;
 	DeviceState *aplic_m = NULL;
 
 	/* M-level IMSICs */
@@ -82,15 +81,15 @@ static DeviceState *xiangshan_kmh_create_aia(const MemMapEntry *memmap,
 	aplic_m = riscv_aplic_create(memmap[XIANGSHAN_KMH_APLIC_M].base,
 				     memmap[XIANGSHAN_KMH_APLIC_M].size,
 				     0, 0, XIANGSHAN_KMH_APLIC_NUM_SOURCES,
-				     0, true, true, NULL);
+				     1, true, true, NULL);
 
 	/* S-level APLIC */
-	aplic_s = riscv_aplic_create(memmap[XIANGSHAN_KMH_APLIC_S].base,
+	riscv_aplic_create(memmap[XIANGSHAN_KMH_APLIC_S].base,
 				     memmap[XIANGSHAN_KMH_APLIC_S].size,
 				     0, 0, XIANGSHAN_KMH_APLIC_NUM_SOURCES,
-				     0, true, false, aplic_m);
+				     1, true, false, aplic_m);
 
-	return aplic_s;
+	return aplic_m;
 }
 
 static void xiangshan_kmh_machine_init(MachineState *machine)
@@ -190,9 +189,9 @@ static void xiangshan_kmh_soc_realize(DeviceState *dev, Error **errp)
 	MemoryRegion *system_memory = get_system_memory();
 	uint32_t num_harts = ms->smp.cpus;
 
-	qdev_prop_set_uint32(DEVICE(&s->cpus), "num_harts", num_harts);
-	qdev_prop_set_uint32(DEVICE(&s->cpus), "hartid_base", 0);
-	qdev_prop_set_string(DEVICE(&s->cpus), "cpu_type",
+	qdev_prop_set_uint32(DEVICE(&s->cpus), "num-harts", num_harts);
+	qdev_prop_set_uint32(DEVICE(&s->cpus), "hartid-base", 0);
+	qdev_prop_set_string(DEVICE(&s->cpus), "cpu-type",
 		TYPE_RISCV_CPU_XIANGSHAN_KMH);
 	sysbus_realize(SYS_BUS_DEVICE(&s->cpus), &error_fatal);
 
@@ -239,7 +238,7 @@ static void xiangshan_kmh_soc_class_init(ObjectClass *klass, void *data)
 
 static void xiangshan_kmh_soc_instance_init(Object * obj)
 {
-	XiangshanKmhSoCState *s = XIANGSHAN_KMH_SOC(obj);;
+	XiangshanKmhSoCState *s = XIANGSHAN_KMH_SOC(obj);
 
 	object_initialize_child(obj, "cpus", &s->cpus, TYPE_RISCV_HART_ARRAY);
 }
