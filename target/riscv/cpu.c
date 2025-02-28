@@ -700,7 +700,7 @@ static void rv64_xiangshan_kmh_cpu_init(Object *obj)
 	RISCVCPU *cpu = RISCV_CPU(obj);
 
     riscv_cpu_set_misa_ext(env, RVG | RVC | RVS | RVU | RVH | RVV);
-	env->priv_ver = PRIV_VERSION_1_12_0;
+	env->priv_ver = PRIV_VERSION_1_13_0;
 
 	/* Enable ISA extensions */
 	cpu->cfg.mmu = true;
@@ -737,6 +737,36 @@ static void rv64_xiangshan_kmh_cpu_init(Object *obj)
 	//cpu->cfg.ext_zvksg = true;
 	cpu->cfg.ext_smaia = true;
 	cpu->cfg.ext_ssaia = true;
+    // new add
+    cpu->cfg.ext_smcsrind = true;
+    cpu->cfg.ext_smdbltrp = true;
+    cpu->cfg.ext_smmpm = true;
+    cpu->cfg.ext_smnpm = true;
+    cpu->cfg.ext_smrnmi = true;
+    cpu->cfg.ext_sscsrind = true;
+    cpu->cfg.ext_ssdbltrp = true;
+    cpu->cfg.ext_ssnpm = true;
+    cpu->cfg.ext_sspm = true;
+    cpu->cfg.ext_supm = true;
+    cpu->cfg.ext_svpbmt = true;
+    cpu->cfg.ext_zacas = true;
+    cpu->cfg.ext_zawrs = true;
+    cpu->cfg.ext_zbkb = true;
+    cpu->cfg.ext_zbkc = true;
+    cpu->cfg.ext_zbkx = true;
+    cpu->cfg.ext_zcb = true;
+    cpu->cfg.ext_zcmop = true;
+    cpu->cfg.ext_zfa = true;
+    cpu->cfg.ext_zfh = true;
+    cpu->cfg.ext_zimop = true;
+    cpu->cfg.ext_zkn = true;
+    cpu->cfg.ext_zknd = true;
+    cpu->cfg.ext_zkne = true;
+    cpu->cfg.ext_zknh = true;
+    cpu->cfg.ext_zksed = true;
+    cpu->cfg.ext_zksh = true;
+    cpu->cfg.ext_zkt = true;
+    cpu->cfg.ext_zvkt = true;
 
 #ifndef CONFIG_USER_ONLY
 	set_satp_mode_max_supported(cpu, VM_1_10_SV48);
