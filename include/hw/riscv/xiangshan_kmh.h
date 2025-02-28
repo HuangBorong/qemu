@@ -38,8 +38,7 @@ typedef struct XiangshanKmhSoCState {
 
 #define TYPE_XIANGSHAN_KMH_SOC "xiangshan.kunminghu.soc"
 DECLARE_INSTANCE_CHECKER(XiangshanKmhSoCState, XIANGSHAN_KMH_SOC,
-	TYPE_XIANGSHAN_KMH_SOC)
-			 
+			 TYPE_XIANGSHAN_KMH_SOC)
 typedef struct XiangshanKmhState {
 	/*< private > */
 	MachineState parent_obj;
@@ -50,8 +49,7 @@ typedef struct XiangshanKmhState {
 
 #define TYPE_XIANGSHAN_KMH_MACHINE MACHINE_TYPE_NAME("xiangshan-kunminghu")
 DECLARE_INSTANCE_CHECKER(XiangshanKmhState, XIANGSHAN_KMH_MACHINE,
-	TYPE_XIANGSHAN_KMH_MACHINE)
-
+			 TYPE_XIANGSHAN_KMH_MACHINE)
 enum {
 	XIANGSHAN_KMH_DEBUG,
 	XIANGSHAN_KMH_ROM,
