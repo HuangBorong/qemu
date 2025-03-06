@@ -705,92 +705,67 @@ static void rv64_xiangshan_kmh_cpu_init(Object *obj)
 	/* Enable ISA extensions */
 	cpu->cfg.mmu = true;
 	cpu->cfg.pmp = true;
+
+    /* 
+     * The RISC-V Instruction Set Manual: Volume I
+     * Unprivileged Architecture
+     * Version 20240411
+     */
 	cpu->cfg.ext_zifencei = true;
 	cpu->cfg.ext_zicsr = true;	
-	
-    /* Chapter 8. "Zicntr" and "Zihpm" Extensions for Counters */
     cpu->cfg.ext_zicntr = true;
     cpu->cfg.ext_zihpm = true;
-    /* Chapter 9. "Zihintntl" Extension for Non-Temporal Locality Hints */
     cpu->cfg.ext_zihintntl = true;
-    /* Chapter 10. "Zihintpause" Extension for Pause Hint */
 	cpu->cfg.ext_zihintpause = true;
-    /* Chapter 11. "Zimop" Extension for May-Be-Operations */
     cpu->cfg.ext_zimop = true;
     cpu->cfg.ext_zcmop = true;
-    /* Chapter 12. "Zicond" Extension for Integer Conditional Operations */
     cpu->cfg.ext_zicond = true;
-    /* Chapter 15. "Zawrs" Extension for Wait-on-Reservation-Set instructions */
     cpu->cfg.ext_zawrs = true;
-    /* Chapter 16. "Zacas" Extension for Atomic Compare-and-Swap (CAS) Instructions */
     cpu->cfg.ext_zacas = true;
-    /* Chapter 23. "Zfh" and "Zfhmin" Extensions for Half-Precision Floating-Point */
     cpu->cfg.ext_zfh = true;
-	cpu->cfg.ext_zfhmin = true; //duplicate
-    /* Chapter 24. "Zfa" Extension for Additional Floating-Point Instructions */
     cpu->cfg.ext_zfa = true;
-    /* Chapter 27. "Zc*" Extension for Code Size Reduction */
     cpu->cfg.ext_zcb = true;
-    /* Chapter 28. "B" Extension for Bit Manipulation */
-	cpu->cfg.ext_zba = true; // duplicate
-	cpu->cfg.ext_zbb = true; // duplicate
 	cpu->cfg.ext_zbc = true;
-	cpu->cfg.ext_zbs = true; // duplicate
-    cpu->cfg.ext_zbkb = true; // duplicate
-    cpu->cfg.ext_zbkc = true; // duplicate
-    cpu->cfg.ext_zbkx = true; // duplicate
-    /* Chapter 31. "V" Standard Extension for Vector Operations */
     cpu->cfg.ext_zvfh = true;
-    cpu->cfg.ext_zvfhmin = true; // duplicate
-    /* Chapter 32. Cryptography Extensions: Scalar & Entropy Source Instructions */
     cpu->cfg.ext_zkn = true;
     cpu->cfg.ext_zks = true;
     cpu->cfg.ext_zkt = true;
-    cpu->cfg.ext_zknd = true; // duplicate
-    cpu->cfg.ext_zkne = true; // duplicate
-    cpu->cfg.ext_zknh = true; // duplicate
-    cpu->cfg.ext_zksed = true; // duplicate
-    cpu->cfg.ext_zksh = true; // duplicate
-    /* Chapter 33. Cryptography Extensions: Vector Instructions */
     cpu->cfg.ext_zvbb = true;
-    cpu->cfg.ext_zvkb = true; // duplicate
-    cpu->cfg.ext_zvkt = true; // duplicate
+    cpu->cfg.ext_zvkt = true;
 
-    /* The RISC-V Instruction Set Manual: Volume II*/
-
-    /* Chapter 4. "Smstateen/Ssstateen" Extensions */
+    /* 
+     * The RISC-V Instruction Set Manual: Volume II
+     * Privileged Architecture
+     * Version 20241101
+     */
     cpu->cfg.ext_smstateen = true;
-    /* Chapter 5. "Smcsrind/Sscsrind" Indirect CSR Access */
     cpu->cfg.ext_smcsrind = true;
     cpu->cfg.ext_sscsrind = true;
-    /* Chapter 8. "Smrnmi" Extension for Resumable Non-Maskable Interrupts */
     cpu->cfg.ext_smrnmi = true;
-    /* Chapter 10. "Smdbltrp" Double Trap Extension */
     cpu->cfg.ext_smdbltrp = true;
-    /* Chapter 13. "Svnapot" Extension for NAPOT Translation Contiguity */
     cpu->cfg.ext_svnapot = true;
-    /* Chapter 14. "Svpbmt" Extension for Page-Based Memory Types, Version 1.0*/
     cpu->cfg.ext_svpbmt = true;
-    /* Chapter 15. "Svinval" Extension for Fine-Grained Address Translation Cache Invalidation, Version 1.0*/
     cpu->cfg.ext_svinval = true;
-    /* Chapter 19. "Sstc" Extension for Supervisor-mode Timer Interrupts, Version 1.0 */
     cpu->cfg.ext_sstc = true;
-    /* Chapter 20. "Sscofpmf" Extension for Count Overflow and Mode-Based Filtering, Version 1.0 */
     cpu->cfg.ext_sscofpmf = true;
-    /* Chapter 23. "Ssdbltrp" Double Trap Extension, Version 1.0 */
     cpu->cfg.ext_ssdbltrp = true;
-    /* Chapter 24. Pointer Masking Extensions, Version 1.0.0 */
     cpu->cfg.ext_ssnpm = true;
     cpu->cfg.ext_smnpm = true;
     cpu->cfg.ext_smmpm = true;
     cpu->cfg.ext_sspm = true;
     cpu->cfg.ext_supm = true;
 
-    /* AIA */
+    /* 
+     * The RISC-V Advanced InterruptArchitecture 
+     * Version 1.0
+     */
 	cpu->cfg.ext_smaia = true;
 	cpu->cfg.ext_ssaia = true;
 
-    /* RVA23 */
+    /* 
+     * RVA23 Profiles
+     * Version 1.0
+     */
 	cpu->cfg.ext_zic64b = true;
 	cpu->cfg.ext_zicbom = true;
 	cpu->cfg.ext_zicbop = true;
