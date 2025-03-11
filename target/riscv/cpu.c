@@ -740,8 +740,8 @@ static void rv64_xiangshan_kmh_cpu_init(Object *obj)
     cpu->cfg.ext_smstateen = true;
     cpu->cfg.ext_smcsrind = true;
     cpu->cfg.ext_sscsrind = true;
-    cpu->cfg.ext_smrnmi = true;
-    cpu->cfg.ext_smdbltrp = true;
+    //cpu->cfg.ext_smrnmi = true;
+    //cpu->cfg.ext_smdbltrp = true;
     cpu->cfg.ext_svnapot = true;
     cpu->cfg.ext_svpbmt = true;
     cpu->cfg.ext_svinval = true;
